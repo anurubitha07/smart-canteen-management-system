@@ -1,0 +1,255 @@
+/* ==========================================
+   SMART CANTEEN - PREMIUM BLACK & ORANGE THEME
+   Add this file AFTER the existing styles.
+   ========================================== */
+
+:root {
+    --sc-bg: #101011;
+    --sc-panel: #1b1b1d;
+    --sc-card: #222224;
+    --sc-border: #363638;
+    --sc-orange: #ff7a00;
+    --sc-orange-light: #ff9b3d;
+    --sc-text: #f5f5f5;
+    --sc-muted: #b8b8bd;
+}
+
+html {
+    color-scheme: dark;
+}
+
+body {
+    background:
+        radial-gradient(ellipse at 12% 8%, rgba(255, 122, 0, .16), transparent 32%),
+        radial-gradient(ellipse at 88% 88%, rgba(255, 87, 34, .12), transparent 30%),
+        var(--sc-bg) !important;
+    background-attachment: fixed !important;
+    color: var(--sc-text) !important;
+}
+
+/* Main header and branding */
+.main-header {
+    background: rgba(27, 27, 29, .96) !important;
+    color: var(--sc-text) !important;
+    border: 1px solid var(--sc-border);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, .28) !important;
+}
+
+.brand h1,
+.login-container h1,
+h2,
+h3 {
+    color: var(--sc-text);
+}
+
+.brand p,
+.meta,
+.stat-card p,
+.login-container p {
+    color: var(--sc-muted);
+}
+
+.logo-icon {
+    background: linear-gradient(135deg, #ff9b3d, #e85b00) !important;
+    box-shadow: 0 0 24px rgba(255, 122, 0, .25);
+}
+
+/* Login panel */
+.login-container {
+    background: var(--sc-panel) !important;
+    color: var(--sc-text) !important;
+    border: 1px solid var(--sc-border);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .42) !important;
+}
+
+.login-container h1,
+.login-container h2,
+.register-form h3 {
+    color: var(--sc-text) !important;
+}
+
+.login-container input,
+.login-container select,
+.controls input,
+.controls select,
+.payment-section select,
+.feature-box input,
+.feature-box textarea,
+.feature-box select,
+.canteen-selection select,
+.admin-order select {
+    background: #151517 !important;
+    color: var(--sc-text) !important;
+    border: 1px solid #444448 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #929298;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--sc-orange) !important;
+    box-shadow: 0 0 0 3px rgba(255, 122, 0, .14) !important;
+    outline: none;
+}
+
+/* Dashboard sections and panels */
+.order,
+.feature-box,
+.payment-section,
+.canteen-selection,
+.stat-card {
+    background: var(--sc-panel) !important;
+    color: var(--sc-text) !important;
+    border: 1px solid var(--sc-border);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .22) !important;
+}
+
+.card {
+    background: var(--sc-card) !important;
+    color: var(--sc-text) !important;
+    border: 1px solid var(--sc-border);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .25) !important;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 122, 0, .65);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .34) !important;
+}
+
+.info h3,
+.price,
+.stat-card h3,
+.admin-order h3 {
+    color: var(--sc-orange-light) !important;
+}
+
+.meta,
+.stock,
+.order li,
+.receipt p {
+    color: var(--sc-muted);
+}
+
+.noimg {
+    background: #303034 !important;
+    color: var(--sc-muted) !important;
+}
+
+/* Buttons */
+button,
+.feature-box button,
+.admin-button,
+.login-container button,
+#placeOrder {
+    background: linear-gradient(135deg, var(--sc-orange), #e85b00) !important;
+    color: #fff !important;
+    border: 0 !important;
+    border-radius: 8px;
+    transition: filter .2s ease, transform .2s ease;
+}
+
+button:hover,
+.feature-box button:hover,
+.admin-button:hover,
+.login-container button:hover,
+#placeOrder:hover {
+    filter: brightness(1.12);
+}
+
+button:disabled {
+    background: #555 !important;
+    color: #bbb !important;
+}
+
+.qty button {
+    background: #333337 !important;
+    border: 1px solid #555 !important;
+    color: white !important;
+}
+
+.order li {
+    border-bottom: 1px solid var(--sc-border) !important;
+}
+
+.order li button {
+    background: #a93226 !important;
+}
+
+/* Payment, confirmation and receipt */
+#paymentDetails {
+    background: #2b2119 !important;
+    color: #ffd2a8 !important;
+    border: 1px solid rgba(255, 122, 0, .28);
+}
+
+#paymentTotal,
+#tokenNumber {
+    color: var(--sc-orange-light) !important;
+}
+
+#confirmation {
+    background: #211b16 !important;
+    color: var(--sc-text) !important;
+    border: 1px solid rgba(255, 122, 0, .55) !important;
+    border-radius: 12px;
+}
+
+.receipt {
+    background: #202023 !important;
+    color: var(--sc-text) !important;
+    border: 2px dashed var(--sc-orange) !important;
+}
+
+.receipt h2 {
+    color: var(--sc-orange-light) !important;
+}
+
+#receiptItems {
+    border-color: #555 !important;
+}
+
+/* Admin cards and order history */
+.admin-order,
+.history-order {
+    background: #242426 !important;
+    color: var(--sc-text) !important;
+    border: 1px solid var(--sc-border) !important;
+}
+
+.admin-food {
+    color: var(--sc-text);
+    border-bottom: 1px solid var(--sc-border) !important;
+}
+
+.admin-food input {
+    background: #151517;
+    color: var(--sc-text);
+    border: 1px solid #444448;
+    border-radius: 6px;
+}
+
+/* Text and small separators */
+#confirmationMessage,
+#trackingResult,
+#feedbackMessage,
+#greeting,
+label {
+    color: var(--sc-text);
+}
+
+hr {
+    border-color: var(--sc-border);
+}
+
+@media (max-width: 600px) {
+    .login-container {
+        width: 100%;
+        margin: 35px auto;
+    }
+}

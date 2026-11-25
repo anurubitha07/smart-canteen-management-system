@@ -1,0 +1,2054 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Canteen Management System</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f6f8;
+    color: #222;
+    padding: 16px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.main-header {
+    display: none;
+    max-width: 1100px;
+    margin: 0 auto 25px;
+    padding: 22px;
+    background: white;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.logo-icon {
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
+
+.brand h1 {
+    color: #17324D;
+}
+
+.brand p {
+    color: #777;
+}
+
+#greeting {
+    margin: 12px;
+}
+
+.dashboard {
+    display: none;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 950px;
+    margin: 0 auto 20px;
+}
+
+.controls input,
+.controls select {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+#userName {
+    flex: 1 1 100%;
+}
+
+#search {
+    flex: 1 1 200px;
+}
+
+h2 {
+    max-width: 950px;
+    margin: 0 auto 12px;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.card img,
+.noimg {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+}
+
+.noimg {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: #e3e8ee;
+    color: #667;
+    font-weight: 600;
+    text-align: center;
+}
+
+.info {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.info h3 {
+    font-size: 16px;
+}
+
+.meta {
+    font-size: 13px;
+    color: #666;
+}
+
+.price {
+    font-weight: bold;
+    color: #27ae60;
+    font-size: 17px;
+}
+
+.stock {
+    font-size: 12px;
+    color: #2980b9;
+}
+
+.stock.low {
+    color: #e67e22;
+}
+
+.stock.out {
+    color: #c0392b;
+    font-weight: bold;
+}
+
+.qty {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.qty button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.qty span {
+    min-width: 20px;
+    text-align: center;
+}
+
+.add {
+    margin-top: 8px;
+    padding: 9px;
+    border: none;
+    background: #d35400;
+    color: white;
+    border-radius: 8px;
+}
+
+.add:hover {
+    background: #b84700;
+}
+
+.add:disabled {
+    background: #bbb;
+    cursor: not-allowed;
+}
+
+.empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #777;
+    padding: 30px;
+}
+
+.order,
+.feature-box {
+    max-width: 950px;
+    margin: 20px auto;
+    padding: 16px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
+.order li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    list-style: none;
+}
+
+.order li button {
+    border: none;
+    background: #e74c3c;
+    color: white;
+    border-radius: 6px;
+    padding: 4px 9px;
+}
+
+.total {
+    margin-top: 12px;
+    font-weight: bold;
+    font-size: 19px;
+}
+
+#placeOrder {
+    margin-top: 12px;
+    padding: 11px 18px;
+    border: none;
+    background: #27ae60;
+    color: white;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.payment-section {
+    max-width: 950px;
+    margin: 20px auto;
+    padding: 16px;
+    background: white;
+    border-radius: 12px;
+}
+
+.payment-section select,
+.feature-box input,
+.feature-box textarea,
+.feature-box select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+.feature-box h2 {
+    margin-bottom: 12px;
+}
+
+.feature-box button,
+.admin-button {
+    padding: 10px 15px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 7px;
+    background: #d35400;
+    color: white;
+}
+
+#confirmation {
+    display: none;
+    background: #e8f8ef;
+    border: 1px solid #27ae60;
+    text-align: center;
+}
+
+#tokenNumber {
+    font-size: 32px;
+    font-weight: bold;
+    color: #d35400;
+    margin: 12px;
+}
+
+#trackingResult,
+#feedbackMessage {
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 13px;
+    border-left: 5px solid #e87524;
+}
+
+.stat-card h3 {
+    color: #d35400;
+    font-size: 27px;
+}
+
+.stat-card p {
+    color: #666;
+    margin-top: 5px;
+}
+
+.admin-order,
+.history-order {
+    background: #fff8f2;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 14px;
+    margin: 12px 0;
+}
+
+.admin-order h3 {
+    color: #d35400;
+    margin-bottom: 8px;
+}
+
+.admin-order select {
+    padding: 8px;
+    border-radius: 7px;
+    margin-top: 8px;
+}
+
+.admin-food {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-food input {
+    width: 90px;
+    padding: 8px;
+}
+
+#paymentDetails {
+    margin-top: 15px;
+    padding: 15px;
+    background: #fff3e0;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#paymentTotal {
+    color: #27ae60;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.receipt {
+    background: white;
+    border: 2px dashed #27ae60;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    display: none;
+    text-align: left;
+}
+
+.receipt h2 {
+    color: #27ae60;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.receipt p {
+    margin: 10px 0;
+    font-size: 15px;
+}
+
+#receiptItems {
+    border-top: 1px dashed #999;
+    border-bottom: 1px dashed #999;
+    padding: 10px 0;
+}
+
+.canteen-selection {
+    background: white;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.canteen-selection select {
+    width: 100%;
+    max-width: 350px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* LOGIN PAGE */
+
+.login-container {
+    width: 350px;
+    max-width: 100%;
+    margin: 100px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+.login-container h1 {
+    color: #1e3a8a;
+}
+
+.login-container input,
+.login-container select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 12px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.login-container button:hover {
+    background: #1e40af;
+}
+
+#loginMessage {
+    color: red;
+    margin-top: 10px;
+}
+
+.register-link {
+    margin-top: 14px;
+    background: transparent !important;
+    color: #2563eb !important;
+    padding: 6px !important;
+    font-weight: 600;
+}
+
+.register-form {
+    display: none;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.register-form h3 {
+    margin-bottom: 8px;
+    color: #1e3a8a;
+}
+
+#registerMessage {
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+/* NAVIGATION */
+
+.dashboard-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    max-width: 1100px;
+    margin: 15px auto 25px;
+    padding: 15px;
+    background: #242424;
+    border-radius: 12px;
+}
+
+.dashboard-nav button {
+    padding: 11px 17px;
+    border: none;
+    border-radius: 8px;
+    background: #383838;
+    color: white;
+    font-weight: 600;
+}
+
+.dashboard-nav button:hover,
+.dashboard-nav button.active {
+    background: #f07824;
+    color: white;
+}
+
+.dashboard-section {
+    scroll-margin-top: 20px;
+    margin-bottom: 25px;
+}
+
+.contact-section {
+    max-width: 950px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #292929;
+    color: white;
+    border-radius: 12px;
+}
+
+@media(max-width: 600px) {
+    body {
+        padding: 8px;
+    }
+
+    .admin-food {
+        flex-wrap: wrap;
+    }
+
+    .brand {
+        flex-wrap: wrap;
+    }
+}
+</style>
+
+<link rel="stylesheet" href="premium-black-orange-theme.css">
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+
+<div class="login-container" id="loginPage">
+
+    <h1>🍽️ Smart Canteen</h1>
+    <h2>Welcome Back!</h2>
+
+    <select id="loginRole">
+        <option value="student">Student Login</option>
+        <option value="admin">Admin Login</option>
+    </select>
+
+    <input type="text" id="loginUsername" placeholder="Enter Username">
+    <input type="password" id="loginPassword" placeholder="Enter Password">
+
+    <button onclick="loginUser()">Login</button>
+
+    <button type="button" class="register-link"
+        onclick="toggleRegister(true)">
+        New student? Register here
+    </button>
+
+    <div class="register-form" id="registerForm">
+
+        <h3>Create Student Account</h3>
+
+        <input type="text" id="registerName" placeholder="Full Name">
+        <input type="email" id="registerEmail" placeholder="Email Address">
+        <input type="text" id="registerUsername" placeholder="Create Username">
+        <input type="password" id="registerPassword" placeholder="Create Password">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password">
+
+        <button type="button" onclick="registerUser()">Register</button>
+
+        <button type="button" class="register-link"
+            onclick="toggleRegister(false)">
+            Back to Login
+        </button>
+
+        <p id="registerMessage"></p>
+
+    </div>
+
+    <p style="font-size:12px;color:#666;margin-top:10px;">
+        Admin demo login: admin / admin123.
+    </p>
+
+    <p id="loginMessage"></p>
+
+</div>
+
+<!-- HEADER -->
+
+<header class="main-header">
+
+    <div class="brand">
+        <div class="logo-icon">🍽️</div>
+
+        <div>
+            <h1>Smart Canteen</h1>
+            <p>Fresh Food • Smart Ordering</p>
+        </div>
+    </div>
+
+    <p id="greeting">Welcome! Order your food below.</p>
+
+</header>
+
+<!-- STUDENT DASHBOARD -->
+
+<div id="studentDashboard" class="dashboard">
+
+    <nav class="dashboard-nav" id="studentNav">
+
+        <button onclick="goToSection('studentHome', this)" class="active">Home</button>
+        <button onclick="goToSection('studentDashboardHome', this)">Dashboard</button>
+        <button onclick="goToSection('studentFood', this)">Food Menu</button>
+        <button onclick="goToSection('studentOrders', this)">My Orders</button>
+        <button onclick="goToSection('studentTracking', this)">Track Order</button>
+        <button onclick="goToSection('studentContact', this)">Contact</button>
+        <button onclick="logoutUser()">Logout</button>
+
+    </nav>
+
+    <div class="canteen-selection dashboard-section" id="studentHome">
+
+        <h2>Choose Your Canteen</h2>
+
+        <select id="canteenSelect">
+            <option value="Canteen 1">Main Canteen</option>
+            <option value="Canteen 2">Snack Corner</option>
+            <option value="Canteen 3">Juice Corner</option>
+        </select>
+
+    </div>
+
+    <div class="controls dashboard-section" id="studentDashboardHome">
+
+        <input type="text" id="userName" placeholder="Enter your name">
+
+        <input type="text" id="registerNumber"
+            placeholder="Enter Register Number">
+
+        <input type="text" id="search" placeholder="Search food...">
+
+        <select id="category">
+            <option value="All">All Categories</option>
+        </select>
+
+    </div>
+
+    <h2 id="studentFood" class="dashboard-section">Today's Food Menu</h2>
+
+    <div class="menu" id="menu"></div>
+
+    <!-- PAYMENT -->
+
+    <div class="payment-section">
+
+        <h2>Payment Details</h2>
+
+        <p>Total Amount: ₹<span id="paymentTotal">0</span></p>
+
+        <label for="paymentMethod">Choose Payment Method</label>
+
+        <select id="paymentMethod">
+            <option value="Cash at Canteen">Cash at Canteen</option>
+            <option value="UPI Demo">UPI Payment (Demo)</option>
+            <option value="Pay at Pickup">Pay at Pickup</option>
+        </select>
+
+        <div id="paymentDetails">
+            Pay at the canteen counter.
+        </div>
+
+    </div>
+
+    <!-- CART -->
+
+    <div class="order dashboard-section" id="studentOrders">
+
+        <h2>Your Shopping Cart</h2>
+
+        <ul id="orderList">
+            <li>No items added yet.</li>
+        </ul>
+
+        <p class="total">
+            Total: ₹<span id="total">0</span>
+        </p>
+
+        <button id="placeOrder">Place Order</button>
+
+        <div id="tokenDisplay"></div>
+
+    </div>
+
+    <!-- CONFIRMATION -->
+
+    <div class="feature-box" id="confirmation">
+
+        <h2>Order Placed Successfully!</h2>
+
+        <p>Your Token Number</p>
+
+        <div id="tokenNumber"></div>
+
+        <p id="confirmationDetails"></p>
+
+        <p>Please remember your token number.</p>
+
+        <div id="receipt" class="receipt">
+
+            <h2>🧾 Order Receipt</h2>
+
+            <p id="receiptName"></p>
+            <p id="receiptToken"></p>
+            <div id="receiptItems"></div>
+            <p id="receiptTotal"></p>
+            <p id="receiptPayment"></p>
+
+            <p>Thank you for ordering! 😊</p>
+
+            <button onclick="printReceipt()">🖨️ Print Receipt</button>
+
+        </div>
+
+    </div>
+
+    <!-- TRACKING -->
+
+    <div class="feature-box dashboard-section" id="studentTracking">
+
+        <h2>Track Your Order</h2>
+
+        <input type="text" id="trackToken"
+            placeholder="Enter your token number">
+
+        <button onclick="trackOrder()">Track Order</button>
+
+        <p id="trackingResult"></p>
+
+    </div>
+
+    <!-- ORDER HISTORY -->
+
+    <div class="feature-box">
+
+        <h2>My Order History</h2>
+
+        <button onclick="displayStudentHistory()">View My Orders</button>
+
+        <div id="studentHistory">
+            Your previous orders will appear here.
+        </div>
+
+    </div>
+
+    <!-- FEEDBACK -->
+
+    <div class="feature-box">
+
+        <h2>Student Feedback</h2>
+
+        <label>Rate your experience:</label>
+
+        <select id="rating">
+            <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+            <option value="4">⭐⭐⭐⭐ Very Good</option>
+            <option value="3">⭐⭐⭐ Good</option>
+            <option value="2">⭐⭐ Fair</option>
+            <option value="1">⭐ Needs Improvement</option>
+        </select>
+
+        <textarea id="feedback" rows="4"
+            placeholder="Write your feedback here..."></textarea>
+
+        <button onclick="submitFeedback()">Submit Feedback</button>
+
+        <p id="feedbackMessage"></p>
+
+    </div>
+
+    <!-- CONTACT -->
+
+    <div class="contact-section dashboard-section" id="studentContact">
+
+        <h2>Contact Us</h2>
+
+        <p>Smart Canteen Management System</p>
+
+        <p>For help with your orders, contact the canteen administrator.</p>
+
+    </div>
+
+</div>
+
+<!-- ADMIN DASHBOARD -->
+
+<div id="adminDashboard" class="dashboard">
+
+    <nav class="dashboard-nav" id="adminNav">
+
+        <button onclick="goToSection('adminHome', this)" class="active">Home</button>
+        <button onclick="goToSection('adminDashboardHome', this)">Dashboard</button>
+        <button onclick="goToSection('adminOrders', this)">Manage Orders</button>
+        <button onclick="goToSection('adminStock', this)">Manage Food</button>
+        <button onclick="goToSection('adminFeedback', this)">Feedback</button>
+        <button onclick="goToSection('adminReports', this)">Reports</button>
+        <button onclick="goToSection('adminContact', this)">Contact</button>
+        <button onclick="logoutUser()">Logout</button>
+
+    </nav>
+
+    <h2 id="adminHome">Admin Dashboard</h2>
+
+    <!-- STATISTICS -->
+
+    <div class="admin-stats dashboard-section" id="adminDashboardHome">
+
+        <div class="stat-card">
+            <h3 id="totalOrders">0</h3>
+            <p>Total Orders</p>
+        </div>
+
+        <div class="stat-card">
+            <h3 id="pendingOrders">0</h3>
+            <p>Pending Orders</p>
+        </div>
+
+        <div class="stat-card">
+            <h3 id="totalRevenue">₹0</h3>
+            <p>Total Revenue</p>
+        </div>
+
+    </div>
+
+    <!-- ORDER MANAGEMENT -->
+
+    <div class="feature-box dashboard-section" id="adminOrders">
+
+        <h2>Manage Student Orders</h2>
+
+        <button onclick="displayAdminOrders()">Refresh Orders</button>
+
+        <div id="adminOrderList">No orders available.</div>
+
+    </div>
+
+    <!-- STOCK MANAGEMENT -->
+
+    <div class="feature-box dashboard-section" id="adminStock">
+
+        <h2>Food Stock Management</h2>
+
+        <div id="adminFoodList"></div>
+
+    </div>
+
+    <!-- FEEDBACK REPORT -->
+
+    <div class="feature-box dashboard-section" id="adminFeedback">
+
+        <h2>Student Feedback Report</h2>
+
+        <button onclick="displayFeedback()">View Feedback</button>
+
+        <div id="adminFeedbackList"></div>
+
+    </div>
+
+    <!-- REPORT -->
+
+    <div class="feature-box dashboard-section" id="adminReports">
+
+        <h2>Reports</h2>
+
+        <button onclick="exportOrders()">Download Orders CSV</button>
+
+    </div>
+
+    <!-- ADMIN CONTACT -->
+
+    <div class="contact-section dashboard-section" id="adminContact">
+
+        <h2>Contact Us</h2>
+
+        <p>Smart Canteen Management System</p>
+
+        <p>For technical support, contact the system administrator.</p>
+
+    </div>
+
+</div>
+
+<script>
+
+// =====================================
+// LOGIN AND REGISTRATION
+// =====================================
+
+function getRegisteredUsers() {
+    return JSON.parse(localStorage.getItem("registeredStudents") || "[]");
+}
+
+function toggleRegister(show) {
+
+    document.getElementById("registerForm").style.display =
+        show ? "block" : "none";
+
+    document.getElementById("loginMessage").textContent = "";
+
+}
+
+function registerUser() {
+
+    const name = document.getElementById("registerName").value.trim();
+    const email = document.getElementById("registerEmail").value.trim().toLowerCase();
+    const username = document.getElementById("registerUsername").value.trim();
+    const password = document.getElementById("registerPassword").value;
+    const confirm = document.getElementById("confirmPassword").value;
+    const message = document.getElementById("registerMessage");
+
+    if (!name || !email || !username || !password || !confirm) {
+        message.style.color = "#c0392b";
+        message.textContent = "Please fill in all registration fields.";
+        return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        message.style.color = "#c0392b";
+        message.textContent = "Please enter a valid email address.";
+        return;
+    }
+
+    if (password.length < 6) {
+        message.style.color = "#c0392b";
+        message.textContent = "Password must contain at least 6 characters.";
+        return;
+    }
+
+    if (password !== confirm) {
+        message.style.color = "#c0392b";
+        message.textContent = "Passwords do not match.";
+        return;
+    }
+
+    const users = getRegisteredUsers();
+
+    if (users.some(user =>
+        user.username.toLowerCase() === username.toLowerCase() ||
+        user.email === email
+    )) {
+        message.style.color = "#c0392b";
+        message.textContent = "Username or email is already registered.";
+        return;
+    }
+
+    users.push({ name, email, username, password });
+
+    localStorage.setItem("registeredStudents", JSON.stringify(users));
+
+    message.style.color = "#218838";
+    message.textContent = "Registration successful! You can now log in.";
+
+    document.getElementById("loginUsername").value = username;
+    document.getElementById("loginRole").value = "student";
+    document.getElementById("loginPassword").value = "";
+
+}
+
+function loginUser() {
+
+    const role = document.getElementById("loginRole").value;
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    const message = document.getElementById("loginMessage");
+
+    if (!username || !password) {
+        message.textContent = "Please enter both username and password.";
+        return;
+    }
+
+    let loggedInName = username;
+
+    if (role === "admin") {
+
+        if (!(username === "admin" && password === "admin123")) {
+            message.textContent = "Invalid admin username or password.";
+            return;
+        }
+
+        loggedInName = "Admin";
+
+    } else {
+
+        const account = getRegisteredUsers().find(user =>
+            user.username.toLowerCase() === username.toLowerCase() &&
+            user.password === password
+        );
+
+        if (!account) {
+            message.textContent =
+                "Account not found or password is incorrect. Please register first.";
+            return;
+        }
+
+        loggedInName = account.name;
+
+    }
+
+    document.getElementById("loginPage").style.display = "none";
+    document.querySelector(".main-header").style.display = "block";
+
+    document.getElementById("greeting").textContent =
+        role === "admin"
+        ? "Welcome, Admin!"
+        : `Welcome, ${loggedInName}! Order your food below.`;
+
+    if (role === "student") {
+        document.getElementById("userName").value = loggedInName;
+    }
+
+    switchDashboard(role);
+
+    message.textContent = "";
+
+}
+
+// =====================================
+// LOGOUT
+// =====================================
+
+function logoutUser() {
+
+    document.querySelector(".main-header").style.display = "none";
+
+    document.getElementById("studentDashboard").style.display = "none";
+    document.getElementById("adminDashboard").style.display = "none";
+
+    document.getElementById("loginPage").style.display = "block";
+
+    document.getElementById("loginPassword").value = "";
+    document.getElementById("loginMessage").textContent = "";
+
+}
+
+// =====================================
+// FOOD MENU
+// =====================================
+
+const foods = [
+
+    { name:"Dosa", category:"Breakfast", price:30, portion:"2 pieces", stock:50, image:"images/dosa.jpg" },
+    { name:"Idli", category:"Breakfast", price:20, portion:"3 pieces", stock:60, image:"images/idli.jpg" },
+    { name:"Pongal", category:"Breakfast", price:35, portion:"1 plate", stock:30, image:"images/pongal.jpg" },
+    { name:"Vada", category:"Breakfast", price:15, portion:"2 pieces", stock:40, image:"images/vada.jpg" },
+    { name:"Poori", category:"Breakfast", price:40, portion:"3 pieces + curry", stock:25, image:"images/poori.jpg" },
+
+    { name:"Veg Meals", category:"Lunch", price:60, portion:"1 full plate", stock:80, image:"images/veg-meals.jpg" },
+    { name:"Chicken Biryani", category:"Lunch", price:100, portion:"1 plate", stock:40, image:"images/chicken-biryani.jpg" },
+    { name:"Lemon Rice", category:"Lunch", price:40, portion:"1 plate", stock:40, image:"images/lemon-rice.jpg" },
+    { name:"Curd Rice", category:"Lunch", price:35, portion:"1 bowl", stock:35, image:"images/curd-rice.jpg" },
+    { name:"Sambar Rice", category:"Lunch", price:45, portion:"1 plate", stock:35, image:"images/sambar-rice.jpg" },
+    { name:"Egg Fried Rice", category:"Lunch", price:70, portion:"1 plate", stock:30, image:"images/egg-fried-rice.jpg" },
+
+    { name:"Samosa", category:"Snacks", price:15, portion:"2 pieces", stock:50, image:"images/samosa.jpg" },
+    { name:"Veg Puff", category:"Snacks", price:20, portion:"1 piece", stock:40, image:"images/veg-puff.jpg" },
+    { name:"Bajji", category:"Snacks", price:20, portion:"4 pieces", stock:30, image:"images/bajji.jpg" },
+    { name:"Sandwich", category:"Snacks", price:40, portion:"1 sandwich", stock:25, image:"images/sandwich.jpg" },
+
+    { name:"Juice", category:"Beverages", price:25, portion:"250 ml", stock:60, image:"images/juice.jpg" },
+    { name:"Tea", category:"Beverages", price:10, portion:"1 cup", stock:100, image:"images/tea.jpg" },
+    { name:"Coffee", category:"Beverages", price:15, portion:"1 cup", stock:100, image:"images/coffee.jpg" },
+    { name:"Lime Soda", category:"Beverages", price:20, portion:"300 ml", stock:40, image:"images/lime-soda.jpg" },
+    { name:"Buttermilk", category:"Beverages", price:15, portion:"250 ml", stock:50, image:"images/buttermilk.jpg" }
+
+];
+
+// =====================================
+// SAVED DATA
+// =====================================
+
+let order = [];
+
+let orders = JSON.parse(localStorage.getItem("orders") || "[]");
+
+let feedbackList = JSON.parse(localStorage.getItem("feedback") || "[]");
+
+let savedStock = JSON.parse(localStorage.getItem("foodStock") || "null");
+
+if (savedStock) {
+    foods.forEach((food, index) => {
+        if (Number.isInteger(savedStock[index]) && savedStock[index] >= 0) {
+            food.stock = savedStock[index];
+        }
+    });
+}
+
+const menuEl = document.getElementById("menu");
+const searchEl = document.getElementById("search");
+const categoryEl = document.getElementById("category");
+const nameEl = document.getElementById("userName");
+const orderListEl = document.getElementById("orderList");
+const totalEl = document.getElementById("total");
+
+let selected = {};
+
+// =====================================
+// HELPER FUNCTIONS
+// =====================================
+
+function escapeHTML(value) {
+
+    return String(value).replace(/[&<>"']/g, function(char) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        }[char];
+    });
+
+}
+
+function saveOrders() {
+    localStorage.setItem("orders", JSON.stringify(orders));
+}
+
+function saveStock() {
+
+    localStorage.setItem(
+        "foodStock",
+        JSON.stringify(foods.map(food => food.stock))
+    );
+
+}
+
+function generateToken() {
+    return "SC" + Date.now().toString().slice(-6);
+}
+
+// =====================================
+// CATEGORY DROPDOWN
+// =====================================
+
+[...new Set(foods.map(food => food.category))].forEach(category => {
+
+    const option = document.createElement("option");
+
+    option.value = category;
+    option.textContent = category;
+
+    categoryEl.appendChild(option);
+
+});
+
+// =====================================
+// CART FUNCTIONS
+// =====================================
+
+function inOrder(index) {
+
+    const item = order.find(o => o.index === index);
+
+    return item ? item.qty : 0;
+
+}
+
+function remaining(index) {
+    return foods[index].stock - inOrder(index);
+}
+
+// =====================================
+// DISPLAY FOOD MENU
+// =====================================
+
+function renderMenu() {
+
+    const searchText = searchEl.value.trim().toLowerCase();
+    const category = categoryEl.value;
+
+    const cards = foods.map((food, index) => ({ food, index }))
+        .filter(({ food }) =>
+            food.name.toLowerCase().includes(searchText) &&
+            (category === "All" || food.category === category)
+        );
+
+    if (cards.length === 0) {
+        menuEl.innerHTML = '<p class="empty">No food found.</p>';
+        return;
+    }
+
+    menuEl.innerHTML = cards.map(({ food, index }) => {
+
+        const left = remaining(index);
+
+        const quantity = Math.min(
+            selected[index] || 1,
+            Math.max(left, 1)
+        );
+
+        selected[index] = quantity;
+
+        const stockClass =
+            left === 0 ? "out" :
+            left <= 5 ? "low" : "";
+
+        const stockText =
+            left === 0 ? "Sold out" :
+            "Available: " + left;
+
+        return `
+        <div class="card">
+
+            <img src="${escapeHTML(food.image)}"
+                alt="${escapeHTML(food.name)}"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+
+            <div class="noimg">${escapeHTML(food.name)}</div>
+
+            <div class="info">
+
+                <h3>${escapeHTML(food.name)}</h3>
+
+                <span class="meta">
+                    ${escapeHTML(food.category)} ·
+                    ${escapeHTML(food.portion)}
+                </span>
+
+                <span class="price">₹${food.price}</span>
+
+                <span class="stock ${stockClass}">
+                    ${stockText}
+                </span>
+
+                <div class="qty">
+
+                    <button onclick="changeQty(${index}, -1)">-</button>
+
+                    <span>${quantity}</span>
+
+                    <button onclick="changeQty(${index}, 1)">+</button>
+
+                </div>
+
+                <button class="add"
+                    onclick="addToOrder(${index})"
+                    ${left === 0 ? "disabled" : ""}>
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>`;
+
+    }).join("");
+
+}
+
+// =====================================
+// CHANGE QUANTITY
+// =====================================
+
+function changeQty(index, delta) {
+
+    const max = Math.max(remaining(index), 1);
+
+    selected[index] = Math.min(
+        Math.max((selected[index] || 1) + delta, 1),
+        max
+    );
+
+    renderMenu();
+
+}
+
+// =====================================
+// ADD TO CART
+// =====================================
+
+function addToOrder(index) {
+
+    const quantity = Math.min(
+        selected[index] || 1,
+        remaining(index)
+    );
+
+    if (quantity <= 0) {
+        alert("Food is out of stock.");
+        return;
+    }
+
+    const existing = order.find(o => o.index === index);
+
+    if (existing) {
+        existing.qty += quantity;
+    } else {
+        order.push({ index: index, qty: quantity });
+    }
+
+    selected[index] = 1;
+
+    renderOrder();
+    renderMenu();
+
+}
+
+// =====================================
+// REMOVE FROM CART
+// =====================================
+
+function removeFromOrder(index) {
+
+    const existing = order.find(o => o.index === index);
+
+    if (!existing) return;
+
+    existing.qty--;
+
+    if (existing.qty === 0) {
+        order = order.filter(o => o.index !== index);
+    }
+
+    renderOrder();
+    renderMenu();
+
+}
+
+// =====================================
+// DISPLAY CART
+// =====================================
+
+function renderOrder() {
+
+    orderListEl.innerHTML = order.length
+
+        ? order.map(o => {
+
+            const food = foods[o.index];
+
+            return `
+            <li>
+
+                <span>
+                    ${escapeHTML(food.name)} × ${o.qty}
+                </span>
+
+                <span>
+                    ₹${food.price * o.qty}
+
+                    <button onclick="removeFromOrder(${o.index})">-</button>
+                </span>
+
+            </li>`;
+
+        }).join("")
+
+        : "<li>No items added yet.</li>";
+
+    const total = order.reduce(
+        (sum, item) =>
+            sum + foods[item.index].price * item.qty,
+        0
+    );
+
+    totalEl.textContent = total;
+
+    document.getElementById("paymentTotal").textContent = total;
+
+}
+
+// =====================================
+// STUDENT GREETING
+// =====================================
+
+nameEl.addEventListener("input", () => {
+
+    const name = nameEl.value.trim();
+
+    document.getElementById("greeting").textContent =
+        name
+        ? `Hello, ${name}! What would you like today?`
+        : "Welcome! Order your food below.";
+
+});
+
+// =====================================
+// PLACE ORDER
+// =====================================
+
+document.getElementById("placeOrder").addEventListener("click", () => {
+
+    const studentName = nameEl.value.trim();
+
+    if (!studentName) {
+        alert("Please enter your name.");
+        return;
+    }
+
+    if (order.length === 0) {
+        alert("Please add food to your cart.");
+        return;
+    }
+
+    for (const item of order) {
+
+        if (item.qty > foods[item.index].stock) {
+            alert("Not enough stock for " + foods[item.index].name);
+            return;
+        }
+
+    }
+
+    const token = generateToken();
+
+    const orderTotal = order.reduce(
+        (sum, item) =>
+            sum + foods[item.index].price * item.qty,
+        0
+    );
+
+    const orderDetails = order.map(item => ({
+        name: foods[item.index].name,
+        quantity: item.qty,
+        price: foods[item.index].price
+    }));
+
+    const paymentMethod =
+        document.getElementById("paymentMethod").value;
+
+    const newOrder = {
+        token: token,
+        student: studentName,
+        items: orderDetails,
+        total: orderTotal,
+        payment: paymentMethod,
+        status: "Preparing",
+        date: new Date().toLocaleString()
+    };
+
+    orders.push(newOrder);
+
+    saveOrders();
+
+    order.forEach(item => {
+        foods[item.index].stock -= item.qty;
+    });
+
+    saveStock();
+
+    document.getElementById("tokenDisplay").innerHTML =
+        "Your Token Number: <strong>" + escapeHTML(token) + "</strong>";
+
+    document.getElementById("tokenNumber").textContent = token;
+
+    document.getElementById("confirmationDetails").textContent =
+        "Name: " + studentName +
+        " | Total: ₹" + orderTotal +
+        " | Payment: " + paymentMethod;
+
+    document.getElementById("confirmation").style.display = "block";
+
+    // RECEIPT
+
+    document.getElementById("receiptName").textContent =
+        "Student: " + studentName;
+
+    document.getElementById("receiptToken").textContent =
+        "Token: " + token;
+
+    document.getElementById("receiptItems").innerHTML =
+        orderDetails.map(item =>
+            `<p>${escapeHTML(item.name)} × ${item.quantity} — ₹${item.price * item.quantity}</p>`
+        ).join("");
+
+    document.getElementById("receiptTotal").textContent =
+        "Total: ₹" + orderTotal;
+
+    document.getElementById("receiptPayment").textContent =
+        "Payment: " + paymentMethod;
+
+    document.getElementById("receipt").style.display = "block";
+
+    order = [];
+
+    renderOrder();
+    renderMenu();
+
+    displayStudentHistory();
+    displayAdminOrders();
+
+    document.getElementById("confirmation").scrollIntoView({
+        behavior: "smooth"
+    });
+
+});
+
+// =====================================
+// SEARCH AND CATEGORY
+// =====================================
+
+searchEl.addEventListener("input", renderMenu);
+categoryEl.addEventListener("change", renderMenu);
+
+// =====================================
+// TRACK ORDER
+// =====================================
+
+function trackOrder() {
+
+    const token = document.getElementById("trackToken")
+        .value.trim().toUpperCase();
+
+    const foundOrder = orders.find(
+        item => item.token.toUpperCase() === token
+    );
+
+    document.getElementById("trackingResult").textContent =
+        foundOrder
+        ? "Order Status: " + foundOrder.status
+        : "Order not found. Please check your token.";
+
+}
+
+// =====================================
+// STUDENT ORDER HISTORY
+// =====================================
+
+function displayStudentHistory() {
+
+    const studentName = nameEl.value.trim().toLowerCase();
+
+    const container = document.getElementById("studentHistory");
+
+    if (!studentName) {
+        container.innerHTML =
+            "<p>Please enter your name to view order history.</p>";
+        return;
+    }
+
+    const studentOrders = orders.filter(
+        item => item.student.toLowerCase() === studentName
+    );
+
+    if (studentOrders.length === 0) {
+        container.innerHTML = "<p>No previous orders found.</p>";
+        return;
+    }
+
+    container.innerHTML = studentOrders.slice().reverse().map(item => `
+
+        <div class="history-order">
+
+            <h3>Token: ${escapeHTML(item.token)}</h3>
+
+            <p><b>Total:</b> ₹${item.total}</p>
+
+            <p><b>Payment:</b> ${escapeHTML(item.payment || "Not recorded")}</p>
+
+            <p><b>Status:</b> ${escapeHTML(item.status)}</p>
+
+            <p><b>Date:</b> ${escapeHTML(item.date)}</p>
+
+        </div>
+
+    `).join("");
+
+}
+
+// =====================================
+// STUDENT FEEDBACK
+// =====================================
+
+function submitFeedback() {
+
+    const rating = document.getElementById("rating").value;
+
+    const feedback = document.getElementById("feedback")
+        .value.trim();
+
+    if (!feedback) {
+        alert("Please write your feedback.");
+        return;
+    }
+
+    feedbackList.push({
+        student: nameEl.value.trim() || "Anonymous",
+        rating: rating,
+        feedback: feedback,
+        date: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("feedback", JSON.stringify(feedbackList));
+
+    document.getElementById("feedbackMessage").textContent =
+        "Thank you for your valuable feedback!";
+
+    document.getElementById("feedback").value = "";
+
+}
+
+// =====================================
+// ADMIN ORDER MANAGEMENT
+// =====================================
+
+function displayAdminOrders() {
+
+    const container = document.getElementById("adminOrderList");
+
+    orders = JSON.parse(localStorage.getItem("orders") || "[]");
+
+    const pending = orders.filter(
+        item => item.status !== "Completed"
+    ).length;
+
+    const revenue = orders.reduce(
+        (sum, item) => sum + Number(item.total || 0),
+        0
+    );
+
+    document.getElementById("totalOrders").textContent = orders.length;
+    document.getElementById("pendingOrders").textContent = pending;
+    document.getElementById("totalRevenue").textContent = "₹" + revenue;
+
+    if (orders.length === 0) {
+        container.innerHTML = "<p>No orders placed yet.</p>";
+        return;
+    }
+
+    container.innerHTML = orders.slice().reverse().map(item => `
+
+        <div class="admin-order">
+
+            <h3>Token: ${escapeHTML(item.token)}</h3>
+
+            <p><b>Student:</b> ${escapeHTML(item.student)}</p>
+
+            <p><b>Items:</b>
+                ${item.items.map(food =>
+                    `${escapeHTML(food.name)} × ${food.quantity}`
+                ).join(", ")}
+            </p>
+
+            <p><b>Total:</b> ₹${item.total}</p>
+
+            <p><b>Payment:</b>
+                ${escapeHTML(item.payment || "Not recorded")}
+            </p>
+
+            <p><b>Date:</b> ${escapeHTML(item.date)}</p>
+
+            <label><b>Order Status:</b></label>
+
+            <select onchange="updateOrderStatus('${escapeHTML(item.token)}', this.value)">
+
+                <option value="Preparing"
+                    ${item.status === "Preparing" ? "selected" : ""}>
+                    Preparing
+                </option>
+
+                <option value="Ready"
+                    ${item.status === "Ready" ? "selected" : ""}>
+                    Ready
+                </option>
+
+                <option value="Completed"
+                    ${item.status === "Completed" ? "selected" : ""}>
+                    Completed
+                </option>
+
+            </select>
+
+        </div>
+
+    `).join("");
+
+}
+
+// =====================================
+// UPDATE ORDER STATUS
+// =====================================
+
+function updateOrderStatus(token, newStatus) {
+
+    const foundOrder = orders.find(item => item.token === token);
+
+    if (foundOrder) {
+
+        foundOrder.status = newStatus;
+
+        saveOrders();
+
+        displayAdminOrders();
+        displayStudentHistory();
+
+        document.getElementById("trackingResult").textContent =
+            "Order Status: " + newStatus;
+
+        alert("Order status updated successfully!");
+
+    }
+
+}
+
+// =====================================
+// ADMIN FOOD STOCK MANAGEMENT
+// =====================================
+
+function displayAdminFood() {
+
+    const container = document.getElementById("adminFoodList");
+
+    container.innerHTML = foods.map((food, index) => `
+
+        <div class="admin-food">
+
+            <span>
+                <b>${escapeHTML(food.name)}</b>
+                <br>
+                Available: ${food.stock}
+            </span>
+
+            <input type="number"
+                id="stock${index}"
+                min="0"
+                value="${food.stock}">
+
+            <button class="admin-button"
+                onclick="updateFoodStock(${index})">
+                Update
+            </button>
+
+        </div>
+
+    `).join("");
+
+}
+
+function updateFoodStock(index) {
+
+    const input = document.getElementById("stock" + index);
+
+    const newStock = Number(input.value);
+
+    if (!Number.isInteger(newStock) || newStock < 0) {
+        alert("Enter a valid non-negative stock quantity.");
+        return;
+    }
+
+    if (newStock < inOrder(index)) {
+        alert("Stock cannot be less than the quantity currently in your cart.");
+        return;
+    }
+
+    foods[index].stock = newStock;
+
+    saveStock();
+
+    renderMenu();
+    displayAdminFood();
+
+    alert("Food stock updated successfully!");
+
+}
+
+// =====================================
+// ADMIN FEEDBACK REPORT
+// =====================================
+
+function displayFeedback() {
+
+    feedbackList = JSON.parse(localStorage.getItem("feedback") || "[]");
+
+    const container = document.getElementById("adminFeedbackList");
+
+    if (feedbackList.length === 0) {
+        container.innerHTML = "<p>No feedback received yet.</p>";
+        return;
+    }
+
+    container.innerHTML = feedbackList.slice().reverse().map(item => `
+
+        <div class="history-order">
+
+            <p><b>Student:</b> ${escapeHTML(item.student)}</p>
+
+            <p><b>Rating:</b> ${escapeHTML(item.rating)} / 5</p>
+
+            <p><b>Feedback:</b> ${escapeHTML(item.feedback)}</p>
+
+            <p><b>Date:</b> ${escapeHTML(item.date)}</p>
+
+        </div>
+
+    `).join("");
+
+}
+
+// =====================================
+// EXPORT ORDERS TO CSV
+// =====================================
+
+function exportOrders() {
+
+    if (orders.length === 0) {
+        alert("No orders available to export.");
+        return;
+    }
+
+    let csv = "Token,Student,Items,Total,Payment,Status,Date\n";
+
+    orders.forEach(item => {
+
+        const items = item.items.map(food =>
+            food.name + " x " + food.quantity
+        ).join("; ");
+
+        const row = [
+            item.token,
+            item.student,
+            items,
+            item.total,
+            item.payment || "Not recorded",
+            item.status,
+            item.date
+        ];
+
+        csv += row.map(value =>
+            '"' + String(value).replace(/"/g, '""') + '"'
+        ).join(",") + "\n";
+
+    });
+
+    const blob = new Blob([csv], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const link = document.createElement("a");
+
+    const url = URL.createObjectURL(blob);
+
+    link.href = url;
+    link.download = "canteen_orders.csv";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+}
+
+// =====================================
+// SWITCH DASHBOARDS
+// =====================================
+
+function switchDashboard(role) {
+
+    const studentDashboard =
+        document.getElementById("studentDashboard");
+
+    const adminDashboard =
+        document.getElementById("adminDashboard");
+
+    if (role === "admin") {
+
+        studentDashboard.style.display = "none";
+        adminDashboard.style.display = "block";
+
+        displayAdminOrders();
+        displayAdminFood();
+
+    } else {
+
+        studentDashboard.style.display = "block";
+        adminDashboard.style.display = "none";
+
+    }
+
+}
+
+// =====================================
+// DASHBOARD NAVIGATION
+// =====================================
+
+function goToSection(sectionId, clickedButton) {
+
+    const section = document.getElementById(sectionId);
+
+    if (!section) {
+        alert("Section not found.");
+        return;
+    }
+
+    section.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+    const nav = clickedButton.closest(".dashboard-nav");
+
+    nav.querySelectorAll("button").forEach(button => {
+        button.classList.remove("active");
+    });
+
+    clickedButton.classList.add("active");
+
+}
+
+// =====================================
+// INITIAL DISPLAY
+// =====================================
+
+renderMenu();
+renderOrder();
+
+// CANTEEN SELECTION
+
+document.getElementById("canteenSelect")
+    .addEventListener("change", () => {
+
+        order = {};
+
+        order = [];
+
+        renderMenu();
+        renderOrder();
+
+    });
+
+// =====================================
+// PAYMENT METHOD DISPLAY
+// =====================================
+
+const paymentMethodEl =
+    document.getElementById("paymentMethod");
+
+function updatePayment() {
+
+    const method = paymentMethodEl.value;
+
+    const details = document.getElementById("paymentDetails");
+
+    if (method === "Cash at Canteen") {
+
+        details.textContent =
+            "Please pay cash at the canteen counter.";
+
+    } else if (method === "UPI Demo") {
+
+        details.innerHTML = `
+            <h3>UPI Payment Simulation</h3>
+            <div style="font-size:60px;">📱</div>
+            <p>This is a demo payment option.</p>
+            <p>No real money will be transferred.</p>
+        `;
+
+    } else {
+
+        details.textContent =
+            "Pay at the pickup counter when your order is ready.";
+
+    }
+
+}
+
+paymentMethodEl.addEventListener("change", updatePayment);
+
+function updatePaymentTotal() {
+
+    document.getElementById("paymentTotal").textContent =
+        totalEl.textContent;
+
+}
+
+updatePayment();
+updatePaymentTotal();
+
+// =====================================
+// PRINT RECEIPT
+// =====================================
+
+function printReceipt() {
+
+    const receipt = document.getElementById("receipt").innerHTML;
+
+    const printWindow = window.open("", "", "width=600,height=600");
+
+    if (!printWindow) {
+        alert("Please allow pop-ups to print your receipt.");
+        return;
+    }
+
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>Smart Canteen Receipt</title>
+            <style>
+                body {
+                    font-family: Arial;
+                    padding: 25px;
+                }
+
+                h2 {
+                    text-align: center;
+                    color: green;
+                }
+            </style>
+        </head>
+        <body>
+            ${receipt}
+        </body>
+        </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.print();
+
+}
+
+</script>
+
+</body>
+</html>

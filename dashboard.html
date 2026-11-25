@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Canteen Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Smart Canteen Dashboard</h1>
+
+    <button onclick="logout()">Logout</button>
+
+    <!-- CUSTOMER DASHBOARD -->
+
+    <div id="studentDashboard" class="dashboard">
+
+        <h2>Customer Dashboard</h2>
+
+        <!-- CANTEEN SELECTION -->
+
+        <div class="feature-box canteen-selection">
+
+            <h2>Choose Your Canteen</h2>
+
+            <select id="canteenSelect">
+                <option value="Canteen 1">Main Canteen</option>
+                <option value="Canteen 2">Snack Corner</option>
+                <option value="Canteen 3">Juice Corner</option>
+            </select>
+
+        </div>
+
+        <!-- CUSTOMER DETAILS AND SEARCH -->
+
+        <div class="controls">
+
+            <input
+                type="text"
+                id="userName"
+                placeholder="Enter your name">
+
+            <input
+                type="text"
+                id="registerNumber"
+                placeholder="Enter Register Number">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="Search food...">
+
+            <select id="category">
+                <option value="All">All Categories</option>
+            </select>
+
+        </div>
+
+        <!-- FOOD MENU -->
+
+        <div class="feature-box">
+
+            <h2>Available Food Items</h2>
+
+            <div id="menu" class="food-grid"></div>
+
+        </div>
+
+        <!-- SHOPPING CART -->
+
+        <div class="feature-box">
+
+            <h2>My Shopping Cart</h2>
+
+            <ul id="orderList"></ul>
+
+            <h3>
+                Total: ₹<span id="total">0</span>
+            </h3>
+
+        </div>
+
+        <!-- PAYMENT -->
+
+        <div class="feature-box">
+
+            <h2>Payment Method</h2>
+
+            <select id="paymentMethod">
+
+                <option value="Cash at Canteen">
+                    Cash at Canteen
+                </option>
+
+                <option value="UPI Demo">
+                    UPI Demo
+                </option>
+
+            </select>
+
+            <div id="paymentDetails"></div>
+
+        </div>
+
+        <!-- PLACE ORDER -->
+
+        <button id="placeOrder">
+            Place Order
+        </button>
+
+        <!-- ORDER CONFIRMATION -->
+
+        <div class="feature-box" id="confirmation">
+
+            <h2>Order Placed Successfully!</h2>
+
+            <p>Your Token Number</p>
+
+            <div id="tokenNumber"></div>
+
+            <p id="confirmationDetails"></p>
+
+            <p>Please remember your token number.</p>
+
+        </div>
+
+        <!-- ORDER HISTORY -->
+
+        <div class="feature-box">
+
+            <h2>My Orders</h2>
+
+            <div id="customerOrderList"></div>
+
+        </div>
+
+        <!-- ORDER TRACKING -->
+
+        <div class="feature-box">
+
+            <h2>Track Your Order</h2>
+
+            <input
+                type="text"
+                id="trackToken"
+                placeholder="Enter your token number">
+
+            <button onclick="trackOrder()">
+                Track Order
+            </button>
+
+            <div id="trackingResult"></div>
+
+        </div>
+
+        <!-- FEEDBACK -->
+
+        <div class="feature-box">
+
+            <h2>Give Feedback</h2>
+
+            <textarea
+                id="feedback"
+                placeholder="Enter your feedback">
+            </textarea>
+
+            <button onclick="submitFeedback()">
+                Submit Feedback
+            </button>
+
+            <p id="feedbackMessage"></p>
+
+        </div>
+
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+
+    <div id="adminDashboard" class="dashboard">
+
+        <h2>Admin Dashboard</h2>
+
+        <!-- ADMIN STATISTICS -->
+
+        <div class="admin-stats">
+
+            <div class="stat-card">
+                <h3 id="totalOrders">0</h3>
+                <p>Total Orders</p>
+            </div>
+
+            <div class="stat-card">
+                <h3 id="pendingOrders">0</h3>
+                <p>Pending Orders</p>
+            </div>
+
+            <div class="stat-card">
+                <h3 id="totalRevenue">₹0</h3>
+                <p>Total Revenue</p>
+            </div>
+
+        </div>
+
+        <!-- ORDER MANAGEMENT -->
+
+        <div class="feature-box">
+
+            <h2>Manage Student Orders</h2>
+
+            <button onclick="displayAdminOrders()">
+                Refresh Orders
+            </button>
+
+            <div id="adminOrderList">
+                No orders available.
+            </div>
+
+        </div>
+
+        <!-- STOCK MANAGEMENT -->
+
+        <div class="feature-box">
+
+            <h2>Food Stock Management</h2>
+
+            <div id="adminFoodList"></div>
+
+        </div>
+
+        <!-- FEEDBACK REPORT -->
+
+        <div class="feature-box">
+
+            <h2>Student Feedback Report</h2>
+
+            <button onclick="displayFeedback()">
+                View Feedback
+            </button>
+
+            <div id="adminFeedbackList"></div>
+
+        </div>
+
+        <!-- REPORTS -->
+
+        <div class="feature-box">
+
+            <h2>Reports</h2>
+
+            <button onclick="exportOrders()">
+                Download Orders CSV
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+
+    <script src="script.js"></script>
+
+    <script>
+
+       const savedUser = localStorage.getItem("loggedInUser");
+
+if (!savedUser) {
+    window.location.href = "login.html";
+} else {
+    const user = JSON.parse(savedUser);
+
+    if (user.role === "admin") {
+        document.getElementById("studentDashboard").style.display = "none";
+        document.getElementById("adminDashboard").style.display = "block";
+    } 
+    else {
+        document.getElementById("adminDashboard").style.display = "none";
+        document.getElementById("studentDashboard").style.display = "block";
+    }
+}
+
+        // LOGOUT FUNCTION
+
+       function logout() {
+    localStorage.removeItem("loggedInUser");
+    window.location.href = "login.html";
+}
+
+        // CANTEEN CHANGE
+
+        const canteenSelect =
+            document.getElementById("canteenSelect");
+
+        if (canteenSelect) {
+
+            canteenSelect.addEventListener("change", function () {
+
+                if (typeof renderMenu === "function") {
+                    renderMenu();
+                }
+
+            });
+
+        }
+
+    </script>
+
+</body>
+</html>
+
+
